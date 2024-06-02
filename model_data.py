@@ -1,7 +1,9 @@
 import os
 
 import torch
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset
+from torch_geometric.data import DataLoader
+
 from torch_geometric.data import Data
 
 
@@ -21,14 +23,12 @@ class DiskDataset(Dataset):
 
     def __getitem__(self, idx):
         file_path = self.file_paths[idx]
-        data = torch.load(file_path)
-        return data
+        self.data = torch.load(file_path)
+        return self.data
     
     def get_loader(self, batch_size, shuffle=True) -> DataLoader:
-        loader = DataLoader(self, batch_size=batch_size, shuffle=shuffle)
-
+        loader = DataLoader(self.data, batch_size=batch_size, shuffle=shuffle)
         return loader
-
 
 
 def model_data(saved_graphs, y):

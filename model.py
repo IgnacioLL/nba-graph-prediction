@@ -50,9 +50,6 @@ def train_nn(model, criterion, optimizer, loader, patience_early_stopping=7, pat
     for epoch in range(100):
         total_loss = 0
         for batch in loader:
-            # Move data to GPU if available
-            batch = batch.to(device)
-            
             optimizer.zero_grad()
             output = model(batch)
             
